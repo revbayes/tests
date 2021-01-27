@@ -262,7 +262,7 @@ monitors.append( mnScreen(printgen=10, age_extant, num_samp_anc, origin_time) )
 mymcmc = mcmc(mymodel, monitors, moves)
 
 # Run the MCMC #
-mymcmc.run(generations=100)
+mymcmc.run(generations=70)
 
 # Quit RevBayes #
 q()
