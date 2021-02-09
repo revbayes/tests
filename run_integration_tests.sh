@@ -8,10 +8,10 @@ if [ -z "$1" ] ; then
     printf '  ./run_integration_tests.sh mpirun -np 4 "$(readlink -f ../projects/cmake/rb)"\n'
     exit 101
 fi
-    
+
 
 if ! "$@" --help > /dev/null 2>&1 ; then
-    echo "RevBayes command '$@' seems not to work!\n"
+    printf "RevBayes command '$@' seems not to work!\n"
     exit 102
 fi
 
