@@ -26,17 +26,17 @@ for(i in 1:(timeline.size()+1))
 	div[i] := lambda[i] - mu[i]
 	turnover[i] := mu[i]/lambda[i]
 
-	moves.append( mvScale(mu[i], lambda = 0.01) )
-	moves.append( mvScale(mu[i], lambda = 0.1) )
-	moves.append( mvScale(mu[i], lambda = 1) )
+	moves.append( mvSlide(mu[i], delta = 0.0001) )
+	moves.append( mvSlide(mu[i], delta = 0.001) )
+	moves.append( mvSlide(mu[i], delta = 0.01) )
 
-	moves.append( mvScale(lambda[i], lambda = 0.01) )
-	moves.append( mvScale(lambda[i], lambda = 0.1) )
-	moves.append( mvScale(lambda[i], lambda = 1) )
+	moves.append( mvSlide(lambda[i], delta = 0.0001) )
+	moves.append( mvSlide(lambda[i], delta = 0.001) )
+	moves.append( mvSlide(lambda[i], delta = 0.01) )
 
-	moves.append( mvScale(psi[i], lambda = 0.01) )
-	moves.append( mvScale(psi[i], lambda = 0.1) )
-	moves.append( mvScale(psi[i], lambda = 1) )
+	moves.append( mvSlide(psi[i], delta = 0.0001) )
+	moves.append( mvSlide(psi[i], delta = 0.001) )
+	moves.append( mvSlide(psi[i], delta = 0.01) )
 }
 
 rho <- 0
