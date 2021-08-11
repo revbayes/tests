@@ -50,14 +50,17 @@ fi
 tests=()
 status=()
 
-if [ -d revbayes.github.io ]; then
 for t in revbayes.github.io/tutorials/*/test.sh; do
     testname=`echo $t | cut -d '/' -f 2-3`
     dirname=`echo $t | cut -d '/' -f 1-3`
     
-    cd $dirname
+    if [ -d $dirname ]; then
+        tests+=($testname)
+    else
+        continue
+    fi
 
-    tests+=($testname)
+    cd $dirname
 
     printf "\n\n#### Running test: $testname\n\n"
     sh test.sh
@@ -77,7 +80,6 @@ for t in revbayes.github.io/tutorials/*/test.sh; do
 
     cd -
 done
-fi
 
 for t in test_*; do
     testname=`echo $t | cut -d _ -f 2-`
