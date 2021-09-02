@@ -1,5 +1,7 @@
 #!/bin/bash
 
+git submodule update --init --recursive
+
 if [ -z "$1" ] ; then
     printf "Please supply the full path to rb as first argument.\n\n"
     printf "Examples:\n"
@@ -54,13 +56,9 @@ for t in revbayes.github.io/tutorials/*/test.sh; do
     testname=`echo $t | cut -d '/' -f 2-3`
     dirname=`echo $t | cut -d '/' -f 1-3`
     
-    if [ -d $dirname ]; then
-        tests+=($testname)
-    else
-        continue
-    fi
-
     cd $dirname
+
+    tests+=($testname)
 
     printf "\n\n#### Running test: $testname\n\n"
     sh test.sh

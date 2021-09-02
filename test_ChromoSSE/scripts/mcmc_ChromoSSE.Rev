@@ -16,7 +16,7 @@ setOption("useScaling","false")
 # get data
 psi <- readTrees("data/aristolochia.tree")[1]
 max_chromo = 18
-chromo_data = readCharacterDataDelimited("data/aristolochia_chromosome_count.tsv", stateLabels=(max_chromo + 1), type="NaturalNumbers", delimiter="\t", header=FALSE)
+chromo_data = readCharacterDataDelimited("data/aristolochia_chromosome_count.tsv", stateLabels=(max_chromo + 1), type="NaturalNumbers", delimiter="\t", headers=FALSE)
 
 
 # some useful variables
