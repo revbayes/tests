@@ -51,7 +51,7 @@ moves.append( mvScale(origin, lambda = 0.01) )
 moves.append( mvScale(origin, lambda = 0.1) )
 moves.append( mvScale(origin, lambda = 1) )
 
-bd ~ dnFBDPSpecies(originAge=origin, lambda=lambda, mu=mu, psi=psi, rho=1, taxa=taxa, timeline=timeline, extended=FALSE, complete=FALSE)
+bd ~ dnFBDP(originAge=origin, lambda=lambda, mu=mu, psi=psi, rho=1, taxa=taxa, timeline=timeline, extended=FALSE, complete=FALSE)
 
 moves.append( mvFNPR(bd, weight = taxa.size()) )
 moves.append( mvNodeTimeSlideUniform(bd, weight = taxa.size()) )
@@ -63,7 +63,7 @@ mymodel = model(bd)
 
 # add monitors
 monitors.append( mnScreen(lambda, mu, psi, printgen=10) )
-monitors.append( mnModel(filename="output/FBDPspecies.log",printgen=1) )
+monitors.append( mnModel(filename="output/FBDP.log",printgen=1) )
 
 # run the analysis
 mymcmc = mcmc(mymodel, moves, monitors, moveschedule="random")

@@ -36,7 +36,7 @@ for(i in 1:(timeline.size()+1))
 	moves.append( mvScale(psi[i], lambda = 1) )
 }
 
-bd ~ dnFBDPSpeciesMatrix(taxa=taxa, lambda=lambda, mu=mu, psi=psi, rho=1, timeline=timeline, complete=FALSE)
+bd ~ dnFBDRP(taxa=taxa, lambda=lambda, mu=mu, psi=psi, rho=1, timeline=timeline, complete=FALSE)
 
 moves.append( mvMatrixElementScale(bd, lambda = 0.01, weight=taxa.size()) )
 moves.append( mvMatrixElementScale(bd, lambda = 0.1, weight=taxa.size()) )
@@ -50,7 +50,7 @@ mymodel = model(bd)
 
 # add monitors
 monitors.append( mnScreen(lambda, mu, psi, printgen=10) )
-monitors.append( mnModel(filename="output/FBDPmatrix.log",printgen=1) )
+monitors.append( mnModel(filename="output/FBDRP.log",printgen=1) )
 
 # run the analysis
 mymcmc = mcmc(mymodel, moves, monitors, moveschedule="random")
