@@ -1,10 +1,10 @@
 seed(12345)
 
 # read stratigraphic ranges
-taxa = readTaxonData(file = "data/dinosaur_ranges.tsv")
+taxa <- readTaxonData("data/bears_taxa.tsv")
 
 # interval boundaries
-timeline <- v(100, 145, 201) - 66
+timeline <- v(5,10,15,20)
 
 # Create some vector for the moves and monitors of this analysis
 moves    = VectorMoves()
@@ -36,24 +36,34 @@ for(i in 1:(timeline.size()+1))
 	moves.append( mvScale(psi[i], lambda = 1) )
 }
 
-rho <- 0
+max_age = 0.0
+for(i in 1:taxa.size())
+{
+	if ( taxa[i].getMaxAge() > max_age )
+	{
+		max_age = taxa[i].getMaxAge()
+	}
+}
 
-# model 2
-bd ~ dnFBDRMatrix(taxa=taxa, lambda=lambda, mu=mu, psi=psi, rho=rho, timeline=timeline)
+origin ~ dnUniform(max_age,max_age+100)
 
-moves.append( mvMatrixElementScale(bd, lambda = 0.01, weight=taxa.size()) )
-moves.append( mvMatrixElementScale(bd, lambda = 0.1, weight=taxa.size()) )
-moves.append( mvMatrixElementScale(bd, lambda = 1, weight=taxa.size()) )
+moves.append( mvScale(origin, lambda = 0.01) )
+moves.append( mvScale(origin, lambda = 0.1) )
+moves.append( mvScale(origin, lambda = 1) )
 
-moves.append( mvMatrixElementSlide(bd, delta = 0.01, weight=taxa.size()) )
-moves.append( mvMatrixElementSlide(bd, delta = 0.1, weight=taxa.size()) )
-moves.append( mvMatrixElementSlide(bd, delta = 1, weight=taxa.size()) )
+bd ~ dnFBDPSpecies(originAge=origin, lambda=lambda, mu=mu, psi=psi, rho=1, taxa=taxa, timeline=timeline, extended=FALSE, complete=FALSE)
+
+moves.append( mvFNPR(bd, weight = taxa.size()) )
+moves.append( mvNodeTimeSlideUniform(bd, weight = taxa.size()) )
+moves.append( mvRootTimeSlideUniform(bd, origin=origin, weight = taxa.size()) )
+moves.append( mvCollapseExpandFossilBranch(bd, origin=origin, weight = taxa.size()) )
+#moves.append( mvTipTimeSlideUniform(bd, weight = taxa.size()) )
 
 mymodel = model(bd)
 
 # add monitors
 monitors.append( mnScreen(lambda, mu, psi, printgen=10) )
-monitors.append( mnModel(filename="output/model2.log",printgen=1) )
+monitors.append( mnModel(filename="output/FBDPspecies.log",printgen=1) )
 
 # run the analysis
 mymcmc = mcmc(mymodel, moves, monitors, moveschedule="random")
