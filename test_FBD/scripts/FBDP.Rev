@@ -64,6 +64,7 @@ mymodel = model(bd)
 # add monitors
 monitors.append( mnScreen(lambda, mu, psi, printgen=10) )
 monitors.append( mnModel(filename="output/FBDP.log",printgen=1) )
+monitors.append( mnFile(filename="output/FBDP.trees",printgen=1,bd) )
 
 # run the analysis
 mymcmc = mcmc(mymodel, moves, monitors, moveschedule="random")
