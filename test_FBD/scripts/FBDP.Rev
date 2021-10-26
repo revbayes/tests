@@ -36,28 +36,28 @@ for(i in 1:(timeline.size()+1))
 	moves.append( mvScale(psi[i], lambda = 1) )
 }
 
-max_age = 0.0
+min_age = 0.0
 for(i in 1:taxa.size())
 {
-	if ( taxa[i].getMaxAge() > max_age )
+	if ( taxa[i].getMinAge() > min_age )
 	{
-		max_age = taxa[i].getMaxAge()
+		min_age = taxa[i].getMinAge()
 	}
 }
 
-origin ~ dnUniform(max_age,max_age+100)
+origin ~ dnUniform(min_age,min_age+100)
 
 moves.append( mvScale(origin, lambda = 0.01) )
 moves.append( mvScale(origin, lambda = 0.1) )
 moves.append( mvScale(origin, lambda = 1) )
 
-bd ~ dnFBDP(originAge=origin, lambda=lambda, mu=mu, psi=psi, rho=1, taxa=taxa, timeline=timeline, extended=FALSE, complete=FALSE)
+bd ~ dnFBDP(originAge=origin, lambda=lambda, mu=mu, psi=psi, rho=1, taxa=taxa, timeline=timeline, complete=FALSE)
 
 moves.append( mvFNPR(bd, weight = taxa.size()) )
 moves.append( mvNodeTimeSlideUniform(bd, weight = taxa.size()) )
 moves.append( mvRootTimeSlideUniform(bd, origin=origin, weight = taxa.size()) )
-moves.append( mvCollapseExpandFossilBranch(bd, origin=origin, weight = taxa.size()) )
-#moves.append( mvTipTimeSlideUniform(bd, weight = taxa.size()) )
+#moves.append( mvCollapseExpandFossilBranch(bd, origin=origin, weight = taxa.size()) )
+moves.append( mvTipTimeSlideUniform(bd, weight = taxa.size()) )
 
 mymodel = model(bd)
 
