@@ -1,13 +1,10 @@
 seed(12345)
 
 # read stratigraphic ranges
-taxa = readTaxonData(file = "data/dinosaur_ranges.tsv")
-
-# read fossil counts
-k <- readDataDelimitedFile(file = "data/dinosaur_fossil_counts.tsv", header = true, rownames = true)
+taxa <- readTaxonData("data/bears_taxa.tsv")
 
 # interval boundaries
-timeline <- v(100, 145, 201) - 66
+timeline <- v(5,10,15,20)
 
 # Create some vector for the moves and monitors of this analysis
 moves    = VectorMoves()
@@ -39,10 +36,7 @@ for(i in 1:(timeline.size()+1))
 	moves.append( mvScale(psi[i], lambda = 1) )
 }
 
-rho <- 0
-
-# model 1
-bd ~ dnFBDRMatrix(taxa=taxa, lambda=lambda, mu=mu, psi=psi, rho=rho, timeline=timeline, k=k)
+bd ~ dnFBDRP(taxa=taxa, lambda=lambda, mu=mu, psi=psi, rho=1, timeline=timeline, complete=FALSE)
 
 moves.append( mvMatrixElementScale(bd, lambda = 0.01, weight=taxa.size()) )
 moves.append( mvMatrixElementScale(bd, lambda = 0.1, weight=taxa.size()) )
@@ -56,7 +50,7 @@ mymodel = model(bd)
 
 # add monitors
 monitors.append( mnScreen(lambda, mu, psi, printgen=10) )
-monitors.append( mnModel(filename="output/model1.log",printgen=1) )
+monitors.append( mnModel(filename="output/FBDRP.log",printgen=1) )
 
 # run the analysis
 mymcmc = mcmc(mymodel, moves, monitors, moveschedule="random")
