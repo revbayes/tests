@@ -55,7 +55,7 @@ status=()
 for t in revbayes.github.io/tutorials/*/test.sh; do
     testname=`echo $t | cut -d '/' -f 2-3`
     dirname=`echo $t | cut -d '/' -f 1-3`
-    
+
     cd $dirname
 
     tests+=($testname)
@@ -154,7 +154,7 @@ while [  $i -lt ${#tests[@]} ]; do
 
         cd ..
     fi
-    
+
     # check if a script exited with an error
     if [ "${status[$i]}" != 0 ]; then
         errs=("${status[$i]}")
