@@ -1,7 +1,7 @@
 
 #
 # ChromoSSE: Cladogenetic and Anagenetic Phylogenetic Models of Chromosome Number Evolution
-# 
+#
 # Will Freyman, UC Berkeley
 # freyman@berkeley.edu
 # http://willfreyman.org
@@ -78,8 +78,8 @@ moves[mi++] = mvRJSwitch(clado_demipoly, weight=1)
 speciation_rates := [clado_no_change, clado_fission, clado_fusion, clado_polyploid, clado_demipoly]
 total_speciation := sum(speciation_rates)
 
-clado_matrix := fnChromosomesCladoEventsBD(speciation_rates, max_chromo)
 
+clado_matrix := fnChromosomesCladoEventsBD(speciation_rates, max_chromo)
 
 # a stochastic variable to represent the turnover
 turnover ~ dnUniform(0, 1.0)
@@ -87,7 +87,7 @@ moves[mi++] = mvScale(turnover, lambda=5.0, weight=3.0)
 
 # make a vector of extinction rates for each state
 for (i in 1:(max_chromo + 1)) {
-    extinction[i] := turnover * total_speciation 
+    extinction[i] := turnover * total_speciation
 }
 
 
@@ -98,11 +98,11 @@ moves[mi++] = mvBetaSimplex(root_frequencies, alpha=0.5, weight=5)
 moves[mi++] = mvElementSwapSimplex(root_frequencies, weight=5)
 
 
-# construct a variable for the tree and chromosomes drawn from a 
+# construct a variable for the tree and chromosomes drawn from a
 # cladogenetic character state dependent birth death process
 chromotree ~ dnCDCladoBDP( rootAge            = psi.rootAge(),
                            cladoEventMap      = clado_matrix,
-                           extinctionRates    = extinction, 
+                           extinctionRates    = extinction,
                            Q                  = R,
                            delta              = 1.0,
                            pi                 = root_frequencies,
@@ -114,6 +114,8 @@ chromotree ~ dnCDCladoBDP( rootAge            = psi.rootAge(),
 chromotree.clamp(psi)
 chromotree.clampCharData(chromo_data)
 
+chromotree.lnProbability()
+#q()
 
 # set up monitors and run MCMC
 monitors[1] = mnFile(filename="output/mcmc_ChromoSSE.out", printgen=sample_freq, clado_demipoly, clado_fission, clado_fusion, clado_no_change, clado_polyploid, delta, delta_l, eta, gamma, gamma_l, root_frequencies, turnover)
