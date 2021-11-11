@@ -162,7 +162,8 @@ while [  $i -lt ${#tests[@]} ]; do
 
     # failure if we have an error message
     if [ ${#errs[@]} -gt 0 ]; then
-        if [ -f XFAIL ] ; then
+
+        if [ -f test_$t/XFAIL ] ; then
             ((xfailed++))
             printf ">>>> Test failed: $t (expected)\n"
         else
