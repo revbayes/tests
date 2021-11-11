@@ -1,7 +1,5 @@
 seed(12345)
 
-q()
-
 # read stratigraphic ranges
 taxa <- readTaxonData("data/bears_taxa.tsv")
 
