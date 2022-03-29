@@ -19,7 +19,7 @@ for(i in 1:(timeline.size()+1))
 	mu[i] ~ dnExp(alpha)
 	lambda[i] ~ dnExp(alpha)
 	psi[i] ~ dnExp(alpha)
-
+	
 	div[i] := lambda[i] - mu[i]
 	turnover[i] := mu[i]/lambda[i]
 
