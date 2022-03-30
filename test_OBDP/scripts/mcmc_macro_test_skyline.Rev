@@ -5,7 +5,7 @@
 # Model: Tree is drawn from a constant-rate fossilized birth-death process with occurrences.
 #
 #
-# authors: Jérémy Andréoletti (from Walker Pett's FBDP test function 
+# authors: Jérémy Andréoletti (from Walker Pett's FBDP test function
 #                                   + "Total-evidence dating under the FBD model" tutorial)
 #
 ############################################################################################
@@ -21,7 +21,7 @@ seed(12345)
 taxa <- readTaxonData("data/simulations/macroevol_taxa.csv")
 sequences <- readDiscreteCharacterData("data/simulations/macroevol_seq_extant.nex")
 morpho <- readDiscreteCharacterData("data/simulations/macroevol_morpho.nex")
-occurrence_ages <- readMatrix(file="data/simulations/macroevol_occurrences.csv", delimiter=";")[1]
+occurrence_ages <- readDataDelimitedFile(file="data/simulations/macroevol_occurrences.csv", delimiter=";")[1]
 
 # Add Missing Taxa
 sequences.addMissingTaxa( taxa )
@@ -54,7 +54,7 @@ omega ~ dnExp(5)
 rho ~ dnUnif(0.0, 1.0)
 rm <- 0.0
 N <- 12
-cond <- "time"
+cond <- "survival"
 # start_time ~ dnUnif(7.7, 12.0)
 start_time ~ dnUnif(5.3, 10.0)
 start_time.setValue(5.5)
@@ -79,15 +79,15 @@ moves[mvi++] = mvSlide(start_time, delta=0.1,  weight=1.0, tune=TRUE)
 obd_tree ~ dnOBDP(  originAge=start_time,
                     timeline=timeline,
                     lambda=lambda,
-                    mu=mu, 
-                    psi=psi, 
-                    omega=omega, 
-                    rho=rho, 
-                    r=rm, 
-                    maxHiddenLin=N, 
+                    mu=mu,
+                    psi=psi,
+                    omega=omega,
+                    rho=rho,
+                    r=rm,
+                    maxHiddenLin=N,
                     condition=cond, 
                     taxa=taxa,
-                    occurrence_ages=occurrence_ages, 
+                    occurrence_ages=occurrence_ages,
                     useMt=useMt,
                     verbose=verbose)
 print("here ok")
@@ -151,7 +151,7 @@ rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
 # moves[mvi++] = mvScale(alpha_morpho, lambda=1.0,  weight=1.0, tune=TRUE)
 
 clock_morpho ~ dnExponential(1.0)
-# moves[mvi++] = mvScale(clock_morpho, lambda=1.0, weight=1.0, tune=TRUE) 
+# moves[mvi++] = mvScale(clock_morpho, lambda=1.0, weight=1.0, tune=TRUE)
 
 phyMorpho ~ dnPhyloCTMC(tree=obd_tree, siteRates=rates_morpho, branchRates=clock_morpho, Q=Q_morpho, type="Standard")
 phyMorpho.clamp(morpho)

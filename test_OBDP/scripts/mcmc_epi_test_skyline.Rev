@@ -18,7 +18,7 @@
 ### Read in taxon data
 taxa <- readTaxonData("data/simulations/epidemio_taxa.csv")
 sequences <- readDiscreteCharacterData("data/simulations/epidemio_seq.nex")
-occurrence_ages <- readMatrix(file="data/simulations/epidemio_occurrences.csv", delimiter="; ")[1]
+occurrence_ages <- readDataDelimitedFile(file="data/simulations/epidemio_occurrences.csv", delimiter="; ")[1]
 
 ######################
 # Parameters' priors #
@@ -105,7 +105,7 @@ branch_rates ~ dnExponential(250.0)
 
 
 #### Jukes-Cantor substitution model
-Q <- fnJC(4) 
+Q <- fnJC(4)
 
 phySeq ~ dnPhyloCTMC(tree=obd_tree, Q=Q, branchRates=branch_rates, type="DNA")
 phySeq.clamp(sequences)
