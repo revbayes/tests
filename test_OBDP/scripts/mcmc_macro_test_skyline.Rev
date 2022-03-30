@@ -18,10 +18,10 @@ seed(12345)
 
 ### Read in data
 
-taxa <- readTaxonData("data/simulations/macroevol_taxa.csv")
-sequences <- readDiscreteCharacterData("data/simulations/macroevol_seq_extant.nex")
-morpho <- readDiscreteCharacterData("data/simulations/macroevol_morpho.nex")
-occurrence_ages <- readDataDelimitedFile(file="data/simulations/macroevol_occurrences.csv", delimiter=";")[1]
+taxa <- readTaxonData("data/data_OBDP/macroevol_taxa.csv")
+sequences <- readDiscreteCharacterData("data/data_OBDP/macroevol_seq_extant.nex")
+morpho <- readDiscreteCharacterData("data/data_OBDP/macroevol_morpho.nex")
+occurrence_ages <- readDataDelimitedFile(file="data/data_OBDP/macroevol_occurrences.csv", delimiter=";")[1]
 
 # Add Missing Taxa
 sequences.addMissingTaxa( taxa )
@@ -55,9 +55,8 @@ rho ~ dnUnif(0.0, 1.0)
 rm <- 0.0
 N <- 12
 cond <- "survival"
-# start_time ~ dnUnif(7.7, 12.0)
-start_time ~ dnUnif(5.3, 10.0)
-start_time.setValue(5.5)
+start_time ~ dnUnif(5.3, 15.0)
+start_time.setValue(10.0)
 useMt <- TRUE
 verbose <- FALSE
 
@@ -85,7 +84,7 @@ obd_tree ~ dnOBDP(  originAge=start_time,
                     rho=rho,
                     r=rm,
                     maxHiddenLin=N,
-                    condition=cond, 
+                    condition=cond,
                     taxa=taxa,
                     occurrence_ages=occurrence_ages,
                     useMt=useMt,

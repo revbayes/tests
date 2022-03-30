@@ -18,10 +18,10 @@ seed(12345)
 
 ### Read in data
 
-taxa <- readTaxonData("data/simulations/macroevol_taxa.csv")
-sequences <- readDiscreteCharacterData("data/simulations/macroevol_seq_extant.nex")
-morpho <- readDiscreteCharacterData("data/simulations/macroevol_morpho.nex")
-occurrence_ages <- readDataDelimitedFile(file="data/simulations/macroevol_occurrences.csv", delimiter="; ")[1]
+taxa <- readTaxonData("data/data_OBDP/macroevol_taxa.csv")
+sequences <- readDiscreteCharacterData("data/data_OBDP/macroevol_seq_extant.nex")
+morpho <- readDiscreteCharacterData("data/data_OBDP/macroevol_morpho.nex")
+occurrence_ages <- readDataDelimitedFile(file="data/data_OBDP/macroevol_occurrences.csv", delimiter="; ")[1]
 
 # Add Missing Taxa
 sequences.addMissingTaxa( taxa )

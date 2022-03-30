@@ -16,12 +16,12 @@
 #######################
 
 ### Read in taxon data
-taxa <- readTaxonData("data/simulations/epidemio_taxa.csv")
-sequences <- readDiscreteCharacterData("data/simulations/epidemio_seq.nex")
-occurrence_ages <- readDataDelimitedFile(file="data/simulations/epidemio_occurrences.csv", delimiter="; ")[1]
+taxa <- readTaxonData("data/data_OBDP/epidemio_taxa.csv")
+sequences <- readDiscreteCharacterData("data/data_OBDP/epidemio_seq.nex")
+occurrence_ages <- readDataDelimitedFile(file="data/data_OBDP/epidemio_occurrences.csv", delimiter="; ")[1]
 
 ######################
-# Parameters' priors #
+# Parameter priors #
 ######################
 
 seed(12345)
@@ -37,9 +37,6 @@ rm <- 0.0
 
 #accuracy of our algorithm number of hidden lineages
 N <- 15
-
-#condition of the algorithm
-cond <- "time"
 
 #the first occurrence is found at t=41.98, we place the origin in a window before
 origin_time ~ dnUnif(42,71.0)
