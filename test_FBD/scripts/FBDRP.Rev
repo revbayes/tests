@@ -36,37 +36,23 @@ for(i in 1:(timeline.size()+1))
 	moves.append( mvScale(psi[i], lambda = 1) )
 }
 
-min_age = 0.0
-for(i in 1:taxa.size())
-{
-	if ( taxa[i].getMinAge() > min_age )
-	{
-		min_age = taxa[i].getMinAge()
-	}
-}
-
-origin ~ dnUniform(min_age,min_age+100)
-
-moves.append( mvScale(origin, lambda = 0.01) )
-moves.append( mvScale(origin, lambda = 0.1) )
-moves.append( mvScale(origin, lambda = 1) )
-
-bd ~ dnFBDRP(originAge=origin, lambda=lambda, mu=mu, psi=psi, rho=1, taxa=taxa, timeline=timeline)
+bd ~ dnFBDRP(taxa=taxa, lambda=lambda, mu=mu, psi=psi, rho=1, timeline=timeline)
 
 moves.append( mvResampleFBD(bd, weight=taxa.size()) )
 
-moves.append( mvFNPR(bd, weight = taxa.size()) )
-moves.append( mvNodeTimeSlideUniform(bd, weight = taxa.size()) )
-moves.append( mvRootTimeSlideUniform(bd, origin=origin, weight = taxa.size()) )
-#moves.append( mvCollapseExpandFossilBranch(bd, origin=origin, weight = taxa.size()) )
-moves.append( mvTipTimeSlideUniform(bd, weight = taxa.size()) )
+moves.append( mvMatrixElementScale(bd, lambda = 0.01, weight=taxa.size()) )
+moves.append( mvMatrixElementScale(bd, lambda = 0.1, weight=taxa.size()) )
+moves.append( mvMatrixElementScale(bd, lambda = 1, weight=taxa.size()) )
+
+moves.append( mvMatrixElementSlide(bd, delta = 0.01, weight=taxa.size()) )
+moves.append( mvMatrixElementSlide(bd, delta = 0.1, weight=taxa.size()) )
+moves.append( mvMatrixElementSlide(bd, delta = 1, weight=taxa.size()) )
 
 mymodel = model(bd)
 
 # add monitors
 monitors.append( mnScreen(lambda, mu, psi, printgen=10) )
 monitors.append( mnModel(filename="output/FBDRP.log",printgen=1) )
-monitors.append( mnFile(filename="output/FBDRP.trees",printgen=1,bd) )
 
 # run the analysis
 mymcmc = mcmc(mymodel, moves, monitors, moveschedule="random")
