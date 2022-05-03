@@ -51,7 +51,9 @@ moves.append( mvScale(origin, lambda = 0.01) )
 moves.append( mvScale(origin, lambda = 0.1) )
 moves.append( mvScale(origin, lambda = 1) )
 
-bd ~ dnFBDRP(originAge=origin, lambda=lambda, mu=mu, psi=psi, rho=1, taxa=taxa, timeline=timeline, complete=FALSE)
+bd ~ dnFBDRP(originAge=origin, lambda=lambda, mu=mu, psi=psi, rho=1, taxa=taxa, timeline=timeline)
+
+moves.append( mvResampleFBD(bd, weight=taxa.size()) )
 
 moves.append( mvFNPR(bd, weight = taxa.size()) )
 moves.append( mvNodeTimeSlideUniform(bd, weight = taxa.size()) )
