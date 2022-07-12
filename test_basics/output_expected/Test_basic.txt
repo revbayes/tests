@@ -36,7 +36,7 @@ Type of primatex.nex:			AbstractHomologousDiscreteCharacterData			Value:
 
 DNA character matrix with 23 taxa and 1141 characters
 =====================================================
-Origination:                   primates_cytb.nex
+Origination:                   "primates_cytb.nex"
 Number of taxa:                23
 Number of included taxa:       23
 Number of characters:          1141
