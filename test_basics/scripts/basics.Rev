@@ -227,11 +227,11 @@ clear()
 
 
 # testing the loops
-sum <- 0
+sum_i <- 0
 for (i in 1:100) {
-   sum <- sum + i
+   sum_i <- sum_i + i
 }
-print(filename = "output/Test_basic.txt", append = TRUE, "Sum of 1:100:		", sum)
+print(filename = "output/Test_basic.txt", append = TRUE, "Sum of 1:100:		", sum_i)
 print(filename = "output/Test_basic.txt", append = TRUE, "\n")
 
 # Fibonacci series
@@ -526,14 +526,14 @@ print(filename = "output/Test_basic.txt", append = TRUE, b)
 print(filename = "output/Test_basic.txt", append = TRUE, "\n")
 
 # function for computing the sum
-function Integer sum(Integer j) {
+function Integer sumI(Integer j) {
    if (j > 1) {
-      return j + sum(j-1)
+      return j + sumI(j-1)
    } else {
       return 1
    }
 }
-c <- sum(100)
+c <- sumI(100)
 print(filename = "output/Test_basic.txt", append = TRUE, c)
 print(filename = "output/Test_basic.txt", append = TRUE, "\n")
 
@@ -548,8 +548,18 @@ function Integer fib(Integer k) {
 d <- fib(6)
 print(filename = "output/Test_basic.txt", append = TRUE, d)
 print(filename = "output/Test_basic.txt", append = TRUE, "\n")
+
+function sampleDirichlet(n, alpha)
+{
+   for(i in 1:n)
+   {
+      asdf[i] ~ dnGamma(alpha, 1.0)
+   }
+   return asdf/sum(asdf)
+}
+
+e <- sampleDirichlet(10, 2)
+print(filename = "output/Test_basic.txt", append = TRUE, e)
 clear()
-
-
 
 q()

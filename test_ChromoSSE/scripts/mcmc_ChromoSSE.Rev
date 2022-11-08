@@ -24,7 +24,7 @@ ana_events = 2
 rho_bd = 1.0
 mcmc_iterations = 2
 sample_freq = 1
-mi = 0
+mi = 1
 
 
 # anagenetic changes: set up transition rates for each type of chromosome change

@@ -19,7 +19,7 @@ for(i in 1:(timeline.size()+1))
 	mu[i] ~ dnExp(alpha)
 	lambda[i] ~ dnExp(alpha)
 	psi[i] ~ dnExp(alpha)
-
+	
 	div[i] := lambda[i] - mu[i]
 	turnover[i] := mu[i]/lambda[i]
 
@@ -36,7 +36,7 @@ for(i in 1:(timeline.size()+1))
 	moves.append( mvScale(psi[i], lambda = 1) )
 }
 
-bd ~ dnBDS(taxa=taxa, lambda=lambda, mu=mu, psi=psi, rho=1, timeline=timeline, complete=FALSE)
+bd ~ dnFBDRP(taxa=taxa, lambda=lambda, mu=mu, psi=psi, rho=1, timeline=timeline, complete=FALSE, BDS=TRUE)
 
 moves.append( mvMatrixElementScale(bd, lambda = 0.01, weight=taxa.size()) )
 moves.append( mvMatrixElementScale(bd, lambda = 0.1, weight=taxa.size()) )
