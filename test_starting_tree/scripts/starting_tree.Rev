@@ -1,0 +1,27 @@
+################################################################################
+#
+# RevBayes Test-Script: Starting Tree function
+#
+#
+# authors: Sebastian Hoehna
+#
+################################################################################
+
+seed(12345)
+
+taxa <- readTaxonData("data/rhino_taxa.tsv")
+
+
+
+ingroup_taxa = taxa
+ingroup_taxa.erase( taxon("Equus_caballus") )
+ingroup_taxa.erase( taxon("Equus_przewalskii") )
+ingroup_taxa.erase( taxon("Equus_asinus") )
+
+constraints = v( clade(ingroup_taxa) )
+
+starting_tree <- simStartingTree( taxa, constraints )
+
+print(filename = "output/starting_tree.txt", append = FALSE, starting_tree)
+
+q()
